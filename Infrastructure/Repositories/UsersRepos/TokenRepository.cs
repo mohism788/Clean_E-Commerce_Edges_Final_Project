@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Clean_E_Commerce_Project.Core.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.Data;
 using System.IdentityModel.Tokens.Jwt;
@@ -16,7 +17,7 @@ namespace Clean_E_Commerce_Project.Infrastructure.Repositories.UsersRepos
             this.configuration = configuration;
         }
 
-        public string CreateJWTToken(IdentityUser user, List<string> roles)
+        public string CreateJWTToken(ApplicationUser user, List<string> roles)
         {
             var claims = new List<Claim>()
             {
