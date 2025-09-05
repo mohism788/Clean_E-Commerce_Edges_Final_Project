@@ -4,6 +4,7 @@
     {
         IProductRepository ProductsRepository { get; }
         ICategoryRepository Categories { get; }
+        IReviewRepository ReviewsRepository { get; }    
         //IOrderRepository Orders { get; }
         //ICartItemRepository CartItems { get; }
         //IUserRepository Users { get; }

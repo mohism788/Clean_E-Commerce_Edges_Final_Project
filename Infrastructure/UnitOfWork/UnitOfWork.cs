@@ -9,12 +9,14 @@ namespace Clean_E_Commerce_Project.Infrastructure.UnitOfWork
         private readonly ApplicationDbContext _dbContext;
         private readonly IProductRepository _productRepository;
         private readonly ICategoryRepository _categoryRepository;
+        private readonly IReviewRepository _reviewRepository;
         public UnitOfWork(ApplicationDbContext dbContext) 
         {
             _dbContext = dbContext;
         }
         public IProductRepository ProductsRepository => _productRepository ?? new ProductRepository(_dbContext);
         public ICategoryRepository Categories => _categoryRepository ?? new CategoryRepository(_dbContext);
+        public IReviewRepository ReviewsRepository => _reviewRepository ?? new ReviewRepository(_dbContext);
         public void Dispose()
         {
             
