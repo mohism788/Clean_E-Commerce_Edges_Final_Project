@@ -1,7 +1,11 @@
 using System.Text;
+using Clean_E_Commerce_Project.Core.Interfaces;
 using Clean_E_Commerce_Project.Core.Models;
-using Clean_E_Commerce_Project.Infrastructure.ApplicationDbContext;
+using Clean_E_Commerce_Project.Infrastructure.DataAccess;
+using Clean_E_Commerce_Project.Infrastructure.Repositories;
+using Clean_E_Commerce_Project.Infrastructure.Repositories.GenericRepo;
 using Clean_E_Commerce_Project.Infrastructure.Repositories.UsersRepos;
+using Clean_E_Commerce_Project.Infrastructure.UnitOfWork;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -74,9 +78,20 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
     });
 
-builder.Services.AddDbContext<AuthDbContext>(options =>
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddDbContext<AuthDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultAuthConnection")));
+
 builder.Services.AddScoped<ITokenRepository, TokenRepository>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 
 
 

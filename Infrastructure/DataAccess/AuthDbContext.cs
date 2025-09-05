@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Clean_E_Commerce_Project.Infrastructure.ApplicationDbContext
+namespace Clean_E_Commerce_Project.Infrastructure.DataAccess
 {
     public class AuthDbContext : IdentityDbContext<ApplicationUser>
     {
