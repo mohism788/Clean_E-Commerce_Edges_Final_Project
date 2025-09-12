@@ -36,6 +36,19 @@ namespace Clean_E_Commerce_Project.API.Controllers
             }
             return Ok(product);
         }
+
+
+        [HttpGet("/ProductDetails:{id}")]
+        public async Task<IActionResult> GetProductDetailsById(int id)
+        {
+            var product = await _unitOfWork.ProductsRepository.GetProductWithDetailsByIdAsync(id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            return Ok(product);
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateProduct([FromBody] CreateProductDto newProduct)
         {

@@ -15,6 +15,7 @@ namespace Clean_E_Commerce_Project.Core.MapperProfile
             // CreateMap<Product, ProductDto>();
             CreateMap<CreateProductDto, Product>().ReverseMap();
             CreateMap<UpdateProductDto, Product>().ReverseMap();
+            CreateMap<ProductWithoutCategoryDto, Product>().ReverseMap();
             CreateMap<UpdatedCategoryDto, Category>().ReverseMap();
             CreateMap<CreateCategoryDto, Category>().ReverseMap();
             CreateMap<CreateReviewDto, Review>().ReverseMap();

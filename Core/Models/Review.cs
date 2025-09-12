@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
 
 namespace Clean_E_Commerce_Project.Core.Models
 {
@@ -21,6 +22,5 @@ namespace Clean_E_Commerce_Project.Core.Models
 
         // Navigation Properties
         public Product Product { get; set; } = null!;
-        public ApplicationUser User { get; set; } = null!;
     }
 }

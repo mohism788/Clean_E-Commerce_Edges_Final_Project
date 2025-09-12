@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using Microsoft.AspNetCore.Identity;
 
 namespace Clean_E_Commerce_Project.Core.Models
 {
@@ -12,7 +13,6 @@ namespace Clean_E_Commerce_Project.Core.Models
 
         // Seller (User)
         public string SellerId { get; set; }
-        public ApplicationUser Seller { get; set; }
 
         // Category (One-to-Many)
         public int CategoryId { get; set; }

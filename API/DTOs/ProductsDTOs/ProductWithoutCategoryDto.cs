@@ -1,6 +1,6 @@
 ﻿namespace Clean_E_Commerce_Project.API.DTOs.ProductsDTOs
 {
-    public class CreateProductDto
+    public class ProductWithoutCategoryDto
     {
         public string Name { get; set; }
         public string? Description { get; set; }

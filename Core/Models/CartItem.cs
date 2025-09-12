@@ -1,4 +1,6 @@
-﻿namespace Clean_E_Commerce_Project.Core.Models
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace Clean_E_Commerce_Project.Core.Models
 {
     public class CartItem
     {
@@ -7,6 +9,5 @@
         public string UserId { get; set; }
         public int Quantity { get; set; }
         public Product Product { get; set; }
-        public ApplicationUser User { get; set; }
     }
 }

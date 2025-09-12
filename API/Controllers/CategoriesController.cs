@@ -39,6 +39,17 @@ namespace Clean_E_Commerce_Project.API.Controllers
             return Ok(category);
         }
 
+        [HttpGet("ProductsInCategory:{id}")]
+        public async Task<IActionResult> GetCategoryWithProductsById(int id)
+        {
+            var category = await _unitOfWork.Categories.GetCategoryWithProductsByIdAsync(id);
+            if (category == null)
+            {
+                return NotFound();
+            }
+            return Ok(category);
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryDto newCategory)
         {
