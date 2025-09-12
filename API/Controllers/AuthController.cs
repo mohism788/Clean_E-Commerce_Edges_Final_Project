@@ -27,8 +27,10 @@ namespace Clean_E_Commerce_Project.API.Controllers
             var IdentityUser = new ApplicationUser()
             {
                 UserName = registerRequestDto.Username,
-                Email = registerRequestDto.Username
+                Email = registerRequestDto.Email,
             };
+
+
             var IdentityResult = await userManager.CreateAsync(IdentityUser, registerRequestDto.Password);
 
             if (IdentityResult.Succeeded)
@@ -41,16 +43,23 @@ namespace Clean_E_Commerce_Project.API.Controllers
                     {
                         return Ok("User registered successfully");
                     }
+                    else
+                    {
+                        return BadRequest(IdentityResult.Errors);
+                    }
                 }
             }
-            return BadRequest("Something went wrong");
+            
+                return BadRequest(IdentityResult.Errors);
+            
+
         }
 
 
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] LoginDto loginRequestDto)
         {
-            var user = await userManager.FindByEmailAsync(loginRequestDto.Username);
+            var user = await userManager.FindByNameAsync(loginRequestDto.Username);
 
             if (user != null)
             {

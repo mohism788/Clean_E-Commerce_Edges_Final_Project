@@ -1,4 +1,5 @@
-﻿using Clean_E_Commerce_Project.Core.Models;
+﻿using System.Reflection.Emit;
+using Clean_E_Commerce_Project.Core.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +15,8 @@ namespace Clean_E_Commerce_Project.Infrastructure.DataAccess
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+
+
             base.OnModelCreating(builder);
 
             var adminRoleId = "c8dd9907-521d-4dfc-8f91-fc85423eb5a1";

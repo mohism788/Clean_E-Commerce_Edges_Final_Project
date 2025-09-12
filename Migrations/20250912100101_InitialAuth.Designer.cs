@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Clean_E_Commerce_Project.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250905160623_init")]
-    partial class init
+    [Migration("20250912100101_InitialAuth")]
+    partial class InitialAuth
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,21 +24,6 @@ namespace Clean_E_Commerce_Project.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("CategoryProduct", b =>
-                {
-                    b.Property<int>("CategoriesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CategoriesId", "ProductsId");
-
-                    b.HasIndex("ProductsId");
-
-                    b.ToTable("ProductsCategory", (string)null);
-                });
 
             modelBuilder.Entity("Clean_E_Commerce_Project.Core.Models.ApplicationUser", b =>
                 {
@@ -81,10 +66,6 @@ namespace Clean_E_Commerce_Project.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.PrimitiveCollection<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -123,7 +104,7 @@ namespace Clean_E_Commerce_Project.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("CartItems");
+                    b.ToTable("CartItems", (string)null);
                 });
 
             modelBuilder.Entity("Clean_E_Commerce_Project.Core.Models.Category", b =>
@@ -140,7 +121,7 @@ namespace Clean_E_Commerce_Project.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("Clean_E_Commerce_Project.Core.Models.Order", b =>
@@ -169,7 +150,7 @@ namespace Clean_E_Commerce_Project.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("Clean_E_Commerce_Project.Core.Models.OrderItem", b =>
@@ -198,7 +179,7 @@ namespace Clean_E_Commerce_Project.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("OrderItems");
+                    b.ToTable("OrderItems", (string)null);
                 });
 
             modelBuilder.Entity("Clean_E_Commerce_Project.Core.Models.Product", b =>
@@ -209,14 +190,13 @@ namespace Clean_E_Commerce_Project.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -226,17 +206,20 @@ namespace Clean_E_Commerce_Project.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("SellerId")
-                        .HasColumnType("int");
+                    b.Property<string>("SellerId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("Stock")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ApplicationUserId");
+                    b.HasIndex("CategoryId");
 
-                    b.ToTable("Products");
+                    b.HasIndex("SellerId");
+
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("Clean_E_Commerce_Project.Core.Models.Review", b =>
@@ -248,8 +231,8 @@ namespace Clean_E_Commerce_Project.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Comment")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -270,22 +253,7 @@ namespace Clean_E_Commerce_Project.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Reviews");
-                });
-
-            modelBuilder.Entity("CategoryProduct", b =>
-                {
-                    b.HasOne("Clean_E_Commerce_Project.Core.Models.Category", null)
-                        .WithMany()
-                        .HasForeignKey("CategoriesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Clean_E_Commerce_Project.Core.Models.Product", null)
-                        .WithMany()
-                        .HasForeignKey("ProductsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.ToTable("Reviews", (string)null);
                 });
 
             modelBuilder.Entity("Clean_E_Commerce_Project.Core.Models.CartItem", b =>
@@ -310,7 +278,7 @@ namespace Clean_E_Commerce_Project.Migrations
             modelBuilder.Entity("Clean_E_Commerce_Project.Core.Models.Order", b =>
                 {
                     b.HasOne("Clean_E_Commerce_Project.Core.Models.ApplicationUser", "User")
-                        .WithMany("Orders")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -329,7 +297,7 @@ namespace Clean_E_Commerce_Project.Migrations
                     b.HasOne("Clean_E_Commerce_Project.Core.Models.Product", "Product")
                         .WithMany("OrderItems")
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Order");
@@ -339,9 +307,21 @@ namespace Clean_E_Commerce_Project.Migrations
 
             modelBuilder.Entity("Clean_E_Commerce_Project.Core.Models.Product", b =>
                 {
-                    b.HasOne("Clean_E_Commerce_Project.Core.Models.ApplicationUser", null)
+                    b.HasOne("Clean_E_Commerce_Project.Core.Models.Category", "Category")
                         .WithMany("Products")
-                        .HasForeignKey("ApplicationUserId");
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Clean_E_Commerce_Project.Core.Models.ApplicationUser", "Seller")
+                        .WithMany()
+                        .HasForeignKey("SellerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Seller");
                 });
 
             modelBuilder.Entity("Clean_E_Commerce_Project.Core.Models.Review", b =>
@@ -353,7 +333,7 @@ namespace Clean_E_Commerce_Project.Migrations
                         .IsRequired();
 
                     b.HasOne("Clean_E_Commerce_Project.Core.Models.ApplicationUser", "User")
-                        .WithMany("Reviews")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -363,13 +343,9 @@ namespace Clean_E_Commerce_Project.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Clean_E_Commerce_Project.Core.Models.ApplicationUser", b =>
+            modelBuilder.Entity("Clean_E_Commerce_Project.Core.Models.Category", b =>
                 {
-                    b.Navigation("Orders");
-
                     b.Navigation("Products");
-
-                    b.Navigation("Reviews");
                 });
 
             modelBuilder.Entity("Clean_E_Commerce_Project.Core.Models.Order", b =>

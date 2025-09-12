@@ -9,12 +9,19 @@ namespace Clean_E_Commerce_Project.Core.Models
         public string? Description { get; set; }
         public decimal Price { get; set; }
         public int Stock { get; set; }
-        public int SellerId{ get; set; }
 
-        public DateTime CreatedAt{ get; set; } = DateTime.UtcNow;
+        // Seller (User)
+        public string SellerId { get; set; }
+        public ApplicationUser Seller { get; set; }
 
-        public ICollection<Category> Categories { get; set; }
-        public ICollection<Review> Reviews{ get; set; }
-        public ICollection<OrderItem> OrderItems { get; set; }
+        // Category (One-to-Many)
+        public int CategoryId { get; set; }
+        public Category Category { get; set; }
+
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+        // Relationships
+        public ICollection<Review> Reviews { get; set; } = new List<Review>();
+        public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
     }
 }

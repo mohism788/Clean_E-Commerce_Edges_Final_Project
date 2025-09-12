@@ -45,11 +45,11 @@ builder.Services.AddAuthentication(options =>
 });*/
 
 
-builder.Services.AddIdentityCore<ApplicationUser>(options => { options.User.RequireUniqueEmail = true; })
+/*builder.Services.AddIdentityCore<ApplicationUser>(options => { options.User.RequireUniqueEmail = true; })
     .AddRoles<IdentityRole>()
     .AddTokenProvider<DataProtectorTokenProvider<ApplicationUser>>("Default")
     .AddEntityFrameworkStores<AuthDbContext>()
-    .AddDefaultTokenProviders();
+    .AddDefaultTokenProviders();*/
 
 
 builder.Services.Configure<IdentityOptions>(options =>
@@ -77,6 +77,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         ValidAudience = builder.Configuration["Jwt:Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
     });
+
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
