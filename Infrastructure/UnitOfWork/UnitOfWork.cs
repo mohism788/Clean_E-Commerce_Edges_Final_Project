@@ -11,6 +11,7 @@ namespace Clean_E_Commerce_Project.Infrastructure.UnitOfWork
         private readonly IProductRepository _productRepository;
         private readonly ICategoryRepository _categoryRepository;
         private readonly IReviewRepository _reviewRepository;
+        private readonly ICartRepository _cartRepository;
         public UnitOfWork(ApplicationDbContext dbContext, AuthDbContext authDbContext) 
         {
             _dbContext = dbContext;
@@ -19,6 +20,9 @@ namespace Clean_E_Commerce_Project.Infrastructure.UnitOfWork
         public IProductRepository ProductsRepository => _productRepository ?? new ProductRepository(_dbContext, _authDbContext);
         public ICategoryRepository Categories => _categoryRepository ?? new CategoryRepository(_dbContext);
         public IReviewRepository ReviewsRepository => _reviewRepository ?? new ReviewRepository(_dbContext);
+        public ICartRepository CartsRepository => _cartRepository ?? new CartRepository(_dbContext);
+
+
         public void Dispose()
         {
             

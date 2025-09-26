@@ -4,9 +4,10 @@
     {
         IProductRepository ProductsRepository { get; }
         ICategoryRepository Categories { get; }
-        IReviewRepository ReviewsRepository { get; }    
+        IReviewRepository ReviewsRepository { get; }
+
+        ICartRepository CartsRepository { get; }
         //IOrderRepository Orders { get; }
-        //ICartItemRepository CartItems { get; }
         //IUserRepository Users { get; }
         Task<int> SaveChangesAsync();
     }

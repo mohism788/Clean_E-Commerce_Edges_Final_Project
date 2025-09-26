@@ -12,13 +12,15 @@ namespace Clean_E_Commerce_Project.Infrastructure.DataAccess
         {
             base.OnModelCreating(modelBuilder);
 
-        //    // Configure one-to-many between Category and Products
-        //    modelBuilder.Entity<Product>()
-        //.HasOne<Category>()
-        //.WithMany(c => c.Products)
-        //.HasForeignKey(p => p.CategoryId);
+           
 
+            modelBuilder.Entity<Cart>()
+    .HasMany(c => c.CartItems)
+    .WithOne(ci => ci.Cart)
+    .HasForeignKey(ci => ci.CartId)
+    .OnDelete(DeleteBehavior.Cascade); // Delete items if cart deleted
 
+           
 
             // Configure one-to-many between Product and Reviews
             modelBuilder.Entity<Review>()
@@ -51,31 +53,6 @@ namespace Clean_E_Commerce_Project.Infrastructure.DataAccess
         .OnDelete(DeleteBehavior.Restrict); // Restrict so deleting a Product doesn’t nuke past Orders
 
 
-        //    // Product -> Seller (Many-to-One)
-        //    modelBuilder.Entity<Product>()
-        //.HasOne(p => p.Seller)
-        //.WithMany() // no nav property in ApplicationUser
-        //.HasForeignKey(p => p.SellerId)
-        //.OnDelete(DeleteBehavior.Restrict); // Prevent deleting Seller if they have Products
-
-
-        //    // Order -> User (Many-to-One)
-        //    modelBuilder.Entity<Order>()
-        //.HasOne(o => o.User)
-        //.WithMany() // no nav property in ApplicationUser
-        //.HasForeignKey(o => o.UserId)
-        //.OnDelete(DeleteBehavior.Cascade);
-
-        //      // CartItem -> User (Many-to-One)
-        //      modelBuilder.Entity<CartItem>()
-        //.HasOne(ci => ci.User)
-        //.WithMany() // no nav property in ApplicationUser
-        //.HasForeignKey(ci => ci.UserId)
-        //.OnDelete(DeleteBehavior.Cascade); // delete cart items if user is deleted
-
-
-
-
 
             modelBuilder.Entity<Product>().ToTable("Products");
             modelBuilder.Entity<Category>().ToTable("Categories");
@@ -94,6 +71,7 @@ namespace Clean_E_Commerce_Project.Infrastructure.DataAccess
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
+        public DbSet<Cart> Carts{ get; set; }
 
 
     }

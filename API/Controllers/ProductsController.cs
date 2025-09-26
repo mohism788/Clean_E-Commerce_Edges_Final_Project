@@ -2,6 +2,7 @@
 using Clean_E_Commerce_Project.API.DTOs.ProductsDTOs;
 using Clean_E_Commerce_Project.Core.Interfaces;
 using Clean_E_Commerce_Project.Core.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Clean_E_Commerce_Project.API.Controllers
@@ -18,7 +19,7 @@ namespace Clean_E_Commerce_Project.API.Controllers
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-
+        
         [HttpGet]
         public async Task<IActionResult> GetAllProducts()
         {
@@ -26,6 +27,7 @@ namespace Clean_E_Commerce_Project.API.Controllers
             return Ok(products);
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProductById(int id)
         {
