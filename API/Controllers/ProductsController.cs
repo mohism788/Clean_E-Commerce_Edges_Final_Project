@@ -21,9 +21,14 @@ namespace Clean_E_Commerce_Project.API.Controllers
         }
         
         [HttpGet]
-        public async Task<IActionResult> GetAllProducts()
+        public async Task<IActionResult> GetAllProducts([FromQuery] string? filterBy, [FromQuery] string? filterQuery,
+                                                        [FromQuery] string? sortBy, [FromQuery] bool? isAscending,
+                                                        [FromQuery] int pageSize, [FromQuery] int pageNumber )
+                                                    
         {
-            var products = await _unitOfWork.ProductsRepository.GetAllAsync();
+            if (pageSize <= 0 ) pageSize = 30;
+            if (pageNumber <= 0) pageNumber = 1;
+            var products = await _unitOfWork.ProductsRepository.GetAllProducts(filterBy, filterQuery, sortBy, isAscending, pageSize, pageNumber);
             return Ok(products);
         }
 

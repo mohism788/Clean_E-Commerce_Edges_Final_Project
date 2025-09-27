@@ -7,5 +7,6 @@ namespace Clean_E_Commerce_Project.Core.Interfaces
         //get product by product id with username and category name
 
         Task<Product> GetProductWithDetailsByIdAsync(int id);
+        Task<ICollection<Product>> GetAllProducts(string? filterBy, string? filterQuery, string? sortBy, bool? isAscending, int pageSize, int pageNumber);
     }
 }
